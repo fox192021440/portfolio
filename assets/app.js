@@ -45,6 +45,33 @@
   if (lb) lb.addEventListener("click", close);
   if (lbClose) lbClose.addEventListener("click", function (e) { e.stopPropagation(); close(); });
 
+  // copy wechat id
+  var wx = document.getElementById("wx-copy");
+  if (wx) {
+    wx.addEventListener("click", function (e) {
+      e.preventDefault();
+      var id = wx.getAttribute("data-wx");
+      var done = function () {
+        var hint = document.getElementById("wx-hint");
+        wx.textContent = "已复制：" + id;
+        if (hint) hint.textContent = "去微信搜索粘贴添加，加我时说明来意和交期。";
+        setTimeout(function () {
+          wx.textContent = "复制微信号 " + id;
+        }, 2600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(id).then(done).catch(function () {});
+      } else {
+        var ta = document.createElement("textarea");
+        ta.value = id;
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); done(); } catch (err) {}
+        document.body.removeChild(ta);
+      }
+    });
+  }
+
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && lb && !lb.hidden) close();
   });
