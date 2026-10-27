@@ -25,3 +25,15 @@ python -m http.server 8000
 - 纯静态页面，不加载任何 CDN 资源，国内可正常访问。
 - 图片取自个人设计库，已压缩并脱敏，不含客户信息。
 - 联系方式在 `index.html` 的 `#hire` 段落下，改成你自己的微信 / 邮箱即可。
+
+## 发布
+
+线上是 GitHub Pages（分支 `main`，根目录）。这份网络环境下 `github.com:443` 经常连不上，
+`git push` 会超时，所以用脚本走 API 推送：
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\push_api.ps1 -Message "更新说明"
+```
+
+脚本会用 Windows 凭据管理器里的 GitHub 令牌，把当前目录（排除 `.git`）整份同步到仓库并生成一次提交，
+所以**本地删掉的文件在线上也会消失**。推送后 1 分钟左右 Pages 自动重建。

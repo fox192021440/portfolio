@@ -48,19 +48,4 @@
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && lb && !lb.hidden) close();
   });
-
-  // reveal on scroll
-  if ("IntersectionObserver" in window) {
-    var reveal = document.querySelectorAll(".case, .skill, .hire-card, .note-card, .grid .shot");
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("in");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
-    document.body.classList.add("io");
-    Array.prototype.forEach.call(reveal, function (el) { io.observe(el); });
-  }
 })();
